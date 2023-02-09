@@ -20,7 +20,7 @@ const server = http.createServer(async (req, res) => {
         return route.handler(req, res);
     }
 
-    return route? route.handler(req,res) : res.writeHead(404).end();
+   /*  return route? route.handler(req,res) : res.writeHead(404).end(); */
 }); 
 
 server.listen(3333);
