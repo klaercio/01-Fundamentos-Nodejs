@@ -11,13 +11,16 @@ const server = http.createServer(async (req, res) => {
     await json(req, res);
 
     const route = routes.find(route => {
-        return route.method === method && route.path === url;
+        return route.method === method && route.path.test(url);
     })
     
-    /* if (route)
-        return route.handler(req, res); */
+    if (route) {
+        const routeParams = req.url.match(route.path);
+        req.params = {...routeParams.groups};
+        return route.handler(req, res);
+    }
 
-    return route ? route.handler(req,res) : res.writeHead(404).end();
+    return route? route.handler(req,res) : res.writeHead(404).end();
 }); 
 
 server.listen(3333);
